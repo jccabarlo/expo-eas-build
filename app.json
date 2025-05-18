@@ -8,6 +8,7 @@
     "scheme": "expogithubactions",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "owner": "jessecabarlo",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jessecabarlo.expo-github-actions"

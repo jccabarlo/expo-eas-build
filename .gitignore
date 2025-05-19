@@ -43,3 +43,6 @@ app-example
 
 # roo code
 .roo
+
+# testing
+coverage/**/*

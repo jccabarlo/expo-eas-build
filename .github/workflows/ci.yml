@@ -75,7 +75,7 @@ jobs:
           version: 10.9.0
 
       - name: 📦 Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: 🚀 Setup EAS
         uses: expo/expo-github-action@v8

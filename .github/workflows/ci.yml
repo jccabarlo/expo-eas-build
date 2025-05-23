@@ -73,7 +73,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: 🏗 Build preview
-        run: eas build --platform ios --profile preview --non-interactive --no-wait
+        run: eas build --platform ios --profile development --non-interactive --no-wait
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}

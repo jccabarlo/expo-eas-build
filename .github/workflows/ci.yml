@@ -74,6 +74,10 @@ jobs:
 
       - name: 🏗 Build preview
         run: eas build --platform ios --profile preview --non-interactive --no-wait
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
 
   build-production:
     needs: test

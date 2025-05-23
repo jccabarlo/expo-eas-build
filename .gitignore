@@ -46,3 +46,6 @@ app-example
 
 # testing
 coverage/**/*
+
+# ios/certs
+ios/certs/

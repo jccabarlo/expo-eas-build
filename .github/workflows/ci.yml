@@ -47,7 +47,7 @@ jobs:
 
   build-preview:
     needs: test
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup repo

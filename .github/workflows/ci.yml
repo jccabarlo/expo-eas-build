@@ -58,16 +58,16 @@ jobs:
         with:
           node-version: 20.10.0
 
-      - name: 📦 Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.pnpm-store
-            node_modules/.cache
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-            ${{ runner.os }}-
+      # - name: 📦 Setup pnpm cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       ~/.pnpm-store
+      #       node_modules/.cache
+      #     key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pnpm-
+      #       ${{ runner.os }}-
 
       - name: 📦 Install pnpm
         uses: pnpm/action-setup@v4

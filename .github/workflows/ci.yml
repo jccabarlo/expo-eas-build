@@ -72,6 +72,15 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: 📱 Setup iOS credentials
+        run: |
+          mkdir -p ios/certs
+          echo "${{ secrets.IOS_DIST_CERT_BASE64 }}" | base64 --decode > ios/certs/dist.p12
+          echo "${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}" | base64 --decode > ios/certs/profile.mobileprovision
+        env:
+          IOS_DIST_CERT_BASE64: ${{ secrets.IOS_DIST_CERT_BASE64 }}
+          IOS_PROVISION_PROFILE_BASE64: ${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}
+
       - name: 🏗 Build preview
         run: eas build --platform ios --profile preview --non-interactive --no-wait
         env:
@@ -105,6 +114,15 @@ jobs:
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📱 Setup iOS credentials
+        run: |
+          mkdir -p ios/certs
+          echo "${{ secrets.IOS_DIST_CERT_BASE64 }}" | base64 --decode > ios/certs/dist.p12
+          echo "${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}" | base64 --decode > ios/certs/profile.mobileprovision
+        env:
+          IOS_DIST_CERT_BASE64: ${{ secrets.IOS_DIST_CERT_BASE64 }}
+          IOS_PROVISION_PROFILE_BASE64: ${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}
 
       - name: 🏗 Build production
         run: eas build --platform all --profile production --non-interactive --no-wait

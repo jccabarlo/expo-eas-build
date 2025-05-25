@@ -17,7 +17,10 @@
       }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "node": "20.10.0",
+      "pnpm": "10.9.0",
+      "credentialsSource": "local"
     },
     "production": {
       "autoIncrement": true

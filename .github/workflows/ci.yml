@@ -1,0 +1,128 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
+
+      # - name: 📦 Setup pnpm cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       ~/.pnpm-store
+      #       node_modules/.cache
+      #       ${{ github.workspace }}/.next/cache
+      #     key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pnpm-
+      #       ${{ runner.os }}-
+
+      - name: 📦 Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.9.0
+
+      - name: 📦 Install dependencies
+        run: pnpm install
+
+      # - name: 🔍 Run linting
+      #   run: pnpm lint
+
+      # - name: 🧪 Run tests
+      #   run: pnpm test
+
+  build-preview:
+    needs: test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
+
+      - name: 📦 Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.9.0
+
+      - name: 📦 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🚀 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📱 Setup iOS credentials
+        run: |
+          mkdir -p ios/certs
+          echo "${{ secrets.IOS_DIST_CERT_BASE64 }}" | base64 --decode > ios/certs/dist.p12
+          echo "${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}" | base64 --decode > ios/certs/profile.mobileprovision
+        env:
+          IOS_DIST_CERT_BASE64: ${{ secrets.IOS_DIST_CERT_BASE64 }}
+          IOS_PROVISION_PROFILE_BASE64: ${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}
+
+      - name: 🏗 Build preview
+        run: eas build --platform ios --profile preview --non-interactive --no-wait
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+
+  build-production:
+    needs: test
+    if: github.event_name == 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
+
+      - name: 📦 Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.9.0
+
+      - name: 📦 Install dependencies
+        run: pnpm install
+
+      - name: 🚀 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📱 Setup iOS credentials
+        run: |
+          mkdir -p ios/certs
+          echo "${{ secrets.IOS_DIST_CERT_BASE64 }}" | base64 --decode > ios/certs/dist.p12
+          echo "${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}" | base64 --decode > ios/certs/profile.mobileprovision
+        env:
+          IOS_DIST_CERT_BASE64: ${{ secrets.IOS_DIST_CERT_BASE64 }}
+          IOS_PROVISION_PROFILE_BASE64: ${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}
+
+      - name: 🏗 Build production
+        run: eas build --platform all --profile production --non-interactive --no-wait

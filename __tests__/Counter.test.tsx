@@ -15,4 +15,18 @@ describe("Counter", () => {
 
     expect(getByTestId("counter-value").props.children).toBe(1);
   });
+
+  // Add to Counter.test.js
+  it("should decrement count when decrement button is pressed", () => {
+    const { getByTestId } = render(<Counter />);
+    const decrementButton = getByTestId("decrement-button");
+    const incrementButton = getByTestId("increment-button");
+
+    // First increment to 1
+    fireEvent.press(incrementButton);
+    // Then decrement back to 0
+    fireEvent.press(decrementButton);
+
+    expect(getByTestId("counter-value").props.children).toBe(0);
+  });
 });

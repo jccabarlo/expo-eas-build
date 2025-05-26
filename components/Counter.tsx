@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 const Counter = () => {
   const [count, setCount] = useState(0);
@@ -7,11 +7,13 @@ const Counter = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Counter</Text>
-      <Text testID="counter-value" style={styles.count}>{count}</Text>
-      <Button 
+      <Text testID="counter-value" style={styles.count}>
+        {count}
+      </Text>
+      <Button
         testID="increment-button"
-        title="Increment" 
-        onPress={() => setCount(count + 1)} 
+        title="Increment"
+        onPress={() => setCount(count + 1)}
       />
     </View>
   );
@@ -19,7 +21,7 @@ const Counter = () => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 20,
   },
   title: {

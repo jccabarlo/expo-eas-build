@@ -54,7 +54,7 @@
   "private": true,
   "jest": {
     "preset": "jest-expo",
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": [
       "**/*.{ts,tsx,js,jsx}",
       "!**/coverage/**",

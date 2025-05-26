@@ -11,6 +11,11 @@ const Counter = () => {
         {count}
       </Text>
       <Button
+        testID="decrement-button"
+        title="Decrement"
+        onPress={() => setCount(count - 1)}
+      />
+      <Button
         testID="increment-button"
         title="Increment"
         onPress={() => setCount(count + 1)}

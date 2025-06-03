@@ -1,4 +1,5 @@
-const { getDefaultConfig } = require('expo/metro-config');
+const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require("nativewind/metro");
 
 /** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
@@ -9,4 +10,4 @@ const config = getDefaultConfig(__dirname);
 // set the config to fix the bundling error for @supabase/supabase-js
 config.resolver.unstable_enablePackageExports = false;
 
-module.exports = config;
+module.exports = withNativeWind(config, { input: "./global.css" });

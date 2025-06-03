@@ -56,7 +56,7 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
         <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-        <Stack />
+        <Stack  screenOptions={{ headerShown: false }} />
       </ThemeProvider>
     </QueryClientProvider>
   );

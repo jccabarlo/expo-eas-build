@@ -2,7 +2,7 @@ import { CounterProvider, useCounterContext } from "@/context/CounterContext";
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
-const CounterChild = () => {
+export const CounterChild = () => {
   const { count, increment, decrement } = useCounterContext();
 
   return (

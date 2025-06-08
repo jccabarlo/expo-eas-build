@@ -1,3 +1,5 @@
+import { useQueryProducts } from "@/services/useQueryProducts";
+import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
 /**
@@ -5,16 +7,18 @@ import { Text, View } from "react-native";
  *
  * Renders a full-screen container with a message centered both vertically and horizontally.
  */
+
 export default function Index() {
+  const router = useRouter();
+  const { data, isLoading } = useQueryProducts();
+
+  if (isLoading) {
+    return <Text className="text-center mt-20">Loading...</Text>;
+  }
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text testID="home">Home 🧋</Text>
+    <View className="flex-1 justify-center items-center">
+      <Text testID="home" onPress={() => router.push("/login")}>Home 🧋</Text>
     </View>
   );
 }

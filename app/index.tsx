@@ -1,5 +1,4 @@
-import { CustomText } from "@/components/CustomText";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 /**
  * Displays a centered message prompting the user to edit the screen.
@@ -15,7 +14,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <CustomText>Home 🧋</CustomText>
+      <Text testID="home">Home 🧋</Text>
     </View>
   );
 }

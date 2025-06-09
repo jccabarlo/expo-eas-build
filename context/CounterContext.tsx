@@ -17,8 +17,8 @@ export const useCounterContext = () => useContext(CounterContext);
 export const CounterProvider = ({ children }: any) => {
   const [count, setCount] = useState(0);
 
-  const increment = () => setCount(count + 1);
-  const decrement = () => setCount(count - 1);
+  const increment = () => setCount(currentCount => currentCount + 1);
+  const decrement = () => setCount(currentCount => currentCount - 1);
 
   return (
     <CounterContext.Provider value={{ count, increment, decrement }}>

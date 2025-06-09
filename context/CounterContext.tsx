@@ -14,7 +14,7 @@ const CounterContext = createContext<CounterContextType>({
 
 export const useCounterContext = () => useContext(CounterContext);
 
-export const CounterProvider = ({ children }: any) => {
+export const CounterProvider = ({ children }: { children: React.ReactNode }) => {
   const [count, setCount] = useState(0);
 
   const increment = () => setCount(currentCount => currentCount + 1);

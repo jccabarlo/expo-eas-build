@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { CounterProvider, useCounterContext } from "@/context/CounterContext";
+import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
-const Counter = () => {
-  const [count, setCount] = useState(0);
+export const CounterChild = () => {
+  const { count, increment, decrement } = useCounterContext();
 
   return (
     <View style={styles.container}>
@@ -10,19 +11,19 @@ const Counter = () => {
       <Text testID="counter-value" style={styles.count}>
         {count}
       </Text>
-      <Button
-        testID="decrement-button"
-        title="Decrement"
-        onPress={() => setCount(count - 1)}
-      />
-      <Button
-        testID="increment-button"
-        title="Increment"
-        onPress={() => setCount(count + 1)}
-      />
+      <Button testID="decrement-button" title="Decrement" onPress={decrement} />
+      <Button testID="increment-button" title="Increment" onPress={increment} />
     </View>
   );
 };
+
+export default function Counter() {
+  return (
+    <CounterProvider>
+      <CounterChild />
+    </CounterProvider>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -38,5 +39,3 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
-
-export default Counter;

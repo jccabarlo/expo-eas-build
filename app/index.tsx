@@ -18,7 +18,7 @@ export default function Index() {
 
   return (
     <View className="flex-1 justify-center items-center">
-      <Text onPress={() => router.push("/login")}>Home 🧋</Text>
+      <Text testID="home" onPress={() => router.push("/login")}>Home 🧋</Text>
     </View>
   );
 }

@@ -140,7 +140,10 @@ importers:
         version: 9.27.0(jiti@1.21.7)
       eslint-config-expo:
         specifier: ~9.2.0
-        version: 9.2.0(eslint@9.27.0(jiti@1.21.7))(typescript@5.8.3)
+        version: 9.2.0(eslint@9.27.0)(typescript@5.8.3)
+      eslint-plugin-testing-library:
+        specifier: ^7.3.0
+        version: 7.3.0(eslint@9.27.0)(typescript@5.8.3)
       jest:
         specifier: ~29.7.0
         version: 29.7.0(@types/node@22.15.18)
@@ -2244,6 +2247,12 @@ packages:
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
+
+  eslint-plugin-testing-library@7.3.0:
+    resolution: {integrity: sha512-f18jqxQ6KNmfKfEelPdk1ZvQlHk4U8gqEnilnPqu0s9jnKSawnd614aLxlysf8+twyuZaOkSlflc/luHxtrMMg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0, pnpm: ^9.14.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0
 
   eslint-scope@5.1.1:
     resolution: {integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==}
@@ -7654,6 +7663,15 @@ snapshots:
       semver: 6.3.1
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
+
+  eslint-plugin-testing-library@7.3.0(eslint@9.27.0)(typescript@5.8.3):
+    dependencies:
+      '@typescript-eslint/scope-manager': 8.32.1
+      '@typescript-eslint/utils': 8.32.1(eslint@9.27.0)(typescript@5.8.3)
+      eslint: 9.27.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
 
   eslint-scope@5.1.1:
     dependencies:

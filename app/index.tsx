@@ -118,7 +118,10 @@ export default function Index() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Thoughts</Text>
-        <TouchableOpacity style={styles.settingsButton} onPress={() => router.push("/login")}>
+        <TouchableOpacity
+          style={styles.settingsButton}
+          onPress={() => router.push("/login")}
+        >
           <Settings size={24} color="#fff" />
         </TouchableOpacity>
       </View>

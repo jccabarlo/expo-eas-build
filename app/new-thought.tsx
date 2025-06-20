@@ -1,36 +1,44 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
-import { OCRService } from '@/utils/ocr';
-import { ThoughtStorage } from '@/utils/storage';
-import * as ImagePicker from 'expo-image-picker';
-import { router } from 'expo-router';
-import { Bookmark, FileText, Chrome as Home, Image as ImageIcon, Plus, Search, User, X } from 'lucide-react-native';
-import React, { useState } from 'react';
+import { OCRService } from "@/utils/ocr";
+import { ThoughtStorage } from "@/utils/storage";
+import * as ImagePicker from "expo-image-picker";
+import { router } from "expo-router";
 import {
-  ActivityIndicator,
-  Alert,
-  ScrollView,
-  View
-} from 'react-native';
+  Bookmark,
+  FileText,
+  Home,
+  Image as ImageIcon,
+  Plus,
+  Search,
+  User,
+  X,
+} from "lucide-react-native";
+import React, { useState } from "react";
+import { ActivityIndicator, Alert, ScrollView, View } from "react-native";
 import Animated, {
   FadeInDown,
   FadeInUp,
   SlideInDown,
-} from 'react-native-reanimated';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function NewThoughtScreen() {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [processingText, setProcessingText] = useState('');
+  const [processingText, setProcessingText] = useState("");
 
   const handleImageUpload = async () => {
     try {
-      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      
+      const permissionResult =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+
       if (permissionResult.granted === false) {
-        Alert.alert('Permission Required', 'Permission to access camera roll is required!');
+        Alert.alert(
+          "Permission Required",
+          "Permission to access camera roll is required!"
+        );
         return;
       }
 
@@ -43,56 +51,68 @@ export default function NewThoughtScreen() {
 
       if (!result.canceled && result.assets[0]) {
         setIsProcessing(true);
-        setProcessingText('Extracting text from image...');
-        
+        setProcessingText("Extracting text from image...");
+
         try {
-          const extractedText = await OCRService.extractTextFromImage(result.assets[0].uri);
+          const extractedText = await OCRService.extractTextFromImage(
+            result.assets[0].uri
+          );
           setContent(extractedText);
         } catch (error) {
-          Alert.alert('Error', 'Failed to extract text from image. Please try again.');
+          Alert.alert(
+            "Error",
+            "Failed to extract text from image. Please try again."
+          );
         } finally {
           setIsProcessing(false);
-          setProcessingText('');
+          setProcessingText("");
         }
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to pick image. Please try again.');
+      Alert.alert("Error", "Failed to pick image. Please try again.");
       setIsProcessing(false);
-      setProcessingText('');
+      setProcessingText("");
     }
   };
 
   const handleDocumentUpload = async () => {
-    Alert.alert('Coming Soon', 'Document upload feature will be available soon!');
+    Alert.alert(
+      "Coming Soon",
+      "Document upload feature will be available soon!"
+    );
   };
 
   const handleSave = async () => {
     if (!content.trim()) {
-      Alert.alert('Error', 'Please enter some content before saving.');
+      Alert.alert("Error", "Please enter some content before saving.");
       return;
     }
 
     try {
       await ThoughtStorage.saveThought({
         content: content.trim(),
-        category: 'Category 1',
+        category: "Category 1",
         timestamp: Date.now(),
       });
-      
+
       router.back();
     } catch (error) {
-      Alert.alert('Error', 'Failed to save thought. Please try again.');
+      Alert.alert("Error", "Failed to save thought. Please try again.");
     }
   };
 
   const handleDiscard = () => {
     if (content.trim()) {
       Alert.alert(
-        'Discard Changes',
-        'Are you sure you want to discard your changes?',
+        "Discard Changes",
+        "Are you sure you want to discard your changes?",
         [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Discard', style: 'destructive', onPress: () => router.back() },
+          { text: "Cancel", style: "cancel" },
+          {
+            text: "Discard",
+            style: "destructive",
+            onPress: () => router.back(),
+          },
         ]
       );
     } else {
@@ -102,7 +122,10 @@ export default function NewThoughtScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-[#1a1a1a]">
-      <Animated.View entering={FadeInUp} className="flex-row justify-between items-center px-5 py-4 border-b border-[#333]">
+      <Animated.View
+        entering={FadeInUp}
+        className="flex-row justify-between items-center px-5 py-4 border-b border-[#333]"
+      >
         <Button onPress={handleDiscard} className="p-2" variant="ghost">
           <X size={24} color="#fff" />
         </Button>
@@ -112,8 +135,10 @@ export default function NewThoughtScreen() {
 
       <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false}>
         <Animated.View entering={FadeInDown.delay(200)} className="mt-6">
-          <Text className="text-white text-base font-semibold mb-4">Upload</Text>
-          
+          <Text className="text-white text-base font-semibold mb-4">
+            Upload
+          </Text>
+
           <Button
             className="flex-row items-center bg-[#2a2a2a] rounded-xl p-4 mb-3"
             onPress={handleImageUpload}
@@ -137,7 +162,9 @@ export default function NewThoughtScreen() {
 
         {isProcessing && (
           <Animated.View entering={SlideInDown} className="mt-6">
-            <Text className="text-white text-base font-semibold mb-4">Processing</Text>
+            <Text className="text-white text-base font-semibold mb-4">
+              Processing
+            </Text>
             <View className="flex-row items-center mb-3">
               <ActivityIndicator size="small" color="#fff" />
               <Text className="text-white text-sm ml-2">{processingText}</Text>
@@ -149,7 +176,9 @@ export default function NewThoughtScreen() {
         )}
 
         <Animated.View entering={FadeInDown.delay(400)} className="mt-6">
-          <Text className="text-white text-base font-semibold mb-3">Enter your thought here</Text>
+          <Text className="text-white text-base font-semibold mb-3">
+            Enter your thought here
+          </Text>
           <Input
             className="bg-[#2a2a2a] rounded-xl p-4 text-base text-white min-h-[120px] text-top"
             value={content}
@@ -173,7 +202,9 @@ export default function NewThoughtScreen() {
           </Button>
 
           <Button
-            className={`flex-1 bg-white rounded-xl p-4 ml-2 items-center ${!content.trim() ? "bg-[#666]" : ""}`}
+            className={`flex-1 bg-white rounded-xl p-4 ml-2 items-center ${
+              !content.trim() ? "bg-[#666]" : ""
+            }`}
             onPress={handleSave}
             disabled={!content.trim() || isProcessing}
             variant="default"
@@ -183,7 +214,11 @@ export default function NewThoughtScreen() {
         </View>
 
         <View className="flex-row justify-around items-center py-3">
-          <Button className="p-2" onPress={() => router.push('/')} variant="ghost">
+          <Button
+            className="p-2"
+            onPress={() => router.push("/")}
+            variant="ghost"
+          >
             <Home size={24} color="#666" />
           </Button>
           <Button className="p-2" variant="ghost">

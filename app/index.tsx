@@ -1,16 +1,11 @@
+import { Button } from "@/components/ui/button";
+import { Text } from "@/components/ui/text";
 import { useQueryProducts } from "@/services/useQueryProducts";
 import { Thought, ThoughtStorage } from "@/utils/storage";
 import { useRouter } from "expo-router";
 import { Bell, Plus, Settings } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, FlatList, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   FadeInDown,
@@ -96,55 +91,61 @@ export default function Index() {
           exiting={FadeOutRight}
           layout={Layout.springify()}
         >
-          <TouchableOpacity style={styles.thoughtItem} activeOpacity={0.7}>
-            <View style={styles.thoughtIcon}>
+          <Button
+            className="flex-row items-start bg-[#2a2a2a] rounded-xl p-4 mb-3"
+            variant="ghost"
+          >
+            <View className="w-10 h-10 rounded-full bg-[#333] justify-center items-center mr-3">
               <Bell size={20} color="#666" />
             </View>
-            <View style={styles.thoughtContent}>
-              <Text style={styles.thoughtText} numberOfLines={2}>
+            <View className="flex-1">
+              <Text
+                className="text-white text-base leading-snug mb-1"
+                numberOfLines={2}
+              >
                 {item.content}
               </Text>
-              <Text style={styles.thoughtTime}>
+              <Text className="text-[#666] text-xs">
                 {formatTime(item.timestamp)}
               </Text>
             </View>
-          </TouchableOpacity>
+          </Button>
         </Animated.View>
       </GestureDetector>
     );
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Thoughts</Text>
-        <TouchableOpacity
-          style={styles.settingsButton}
+    <SafeAreaView className="flex-1 bg-[#1a1a1a]">
+      <View className="flex-row justify-between items-center px-5 py-4">
+        <Text className="text-white text-3xl font-semibold">Thoughts</Text>
+        <Button
+          className="p-2"
           onPress={() => router.push("/login")}
+          variant="ghost"
         >
           <Settings size={24} color="#fff" />
-        </TouchableOpacity>
+        </Button>
       </View>
 
-      <View style={styles.categoryContainer}>
+      <View className="flex-row px-5 pb-5 gap-3">
         {categories.map((category) => (
-          <TouchableOpacity
+          <Button
             key={category}
-            style={[
-              styles.categoryButton,
-              selectedCategory === category && styles.categoryButtonActive,
-            ]}
+            className={`px-4 py-2 rounded-full bg-[#333] ${
+              selectedCategory === category ? "bg-white" : ""
+            }`}
             onPress={() => setSelectedCategory(category)}
+            variant="ghost"
           >
             <Text
-              style={[
-                styles.categoryText,
-                selectedCategory === category && styles.categoryTextActive,
-              ]}
+              className={`text-sm font-medium text-[#999] ${
+                selectedCategory === category ? "text-black" : ""
+              }`}
             >
               {category}
             </Text>
-          </TouchableOpacity>
+          </Button>
         ))}
       </View>
 
@@ -152,122 +153,22 @@ export default function Index() {
         data={filteredThoughts}
         renderItem={renderThought}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContainer}
+        contentContainerClassName="px-5 pb-24"
         showsVerticalScrollIndicator={false}
       />
 
       <Animated.View
         entering={SlideInRight.delay(500)}
-        style={styles.fabContainer}
+        className="absolute bottom-8 right-5"
       >
-        <TouchableOpacity
-          style={styles.fab}
+        <Button
+          className="w-14 h-14 rounded-full bg-white justify-center items-center shadow-lg shadow-black"
           onPress={() => router.push("/new-thought")}
-          activeOpacity={0.8}
+          variant="default"
         >
           <Plus size={28} color="#000" />
-        </TouchableOpacity>
+        </Button>
       </Animated.View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#1a1a1a",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "600",
-    color: "#fff",
-  },
-  settingsButton: {
-    padding: 8,
-  },
-  categoryContainer: {
-    flexDirection: "row",
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-    gap: 12,
-  },
-  categoryButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    backgroundColor: "#333",
-  },
-  categoryButtonActive: {
-    backgroundColor: "#fff",
-  },
-  categoryText: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#999",
-  },
-  categoryTextActive: {
-    color: "#000",
-  },
-  listContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 100,
-  },
-  thoughtItem: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    backgroundColor: "#2a2a2a",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-  },
-  thoughtIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#333",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 12,
-  },
-  thoughtContent: {
-    flex: 1,
-  },
-  thoughtText: {
-    fontSize: 16,
-    color: "#fff",
-    lineHeight: 22,
-    marginBottom: 4,
-  },
-  thoughtTime: {
-    fontSize: 12,
-    color: "#666",
-  },
-  fabContainer: {
-    position: "absolute",
-    bottom: 30,
-    right: 20,
-  },
-  fab: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-});

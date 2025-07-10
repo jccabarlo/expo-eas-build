@@ -36,14 +36,6 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-app-example
-
-# vscode
-.vscode
-
-# roo code
-.roo
-
 # testing
 coverage/**/*
 

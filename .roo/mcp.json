@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "Framelink Figma MCP": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "figma-developer-mcp",
+        "--figma-api-key=${env:ADD_HERE_YOUR_FIGMA_API_KEY}",
+        "--stdio"
+      ],
+      "disabled": true,
+      "alwaysAllow": []
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ],
+      "disabled": true,
+      "alwaysAllow": []
+    }
+  }
+}
